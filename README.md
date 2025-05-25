@@ -39,3 +39,11 @@ The script defaults to using `WLAN` as the network interface name. If your WiFi 
    
 2. Edit `Set-DNS.ps1` and replace all occurrences of `[WLAN]` with your interface name
 
+
+## 2025-05-25 Update:
+I found that enforcing strict HTTPS DNS causes compatibility issues with some applications that only support traditional port 53 resolution. UDP fallback is now enabled by default.
+
+If you want to use strict HTTPS-only DNS mode:
+
+1. Open `Set-DNS.ps1`
+2. Change `-AllowFallbackToUdp $true` to `-AllowFallbackToUdp $false`
