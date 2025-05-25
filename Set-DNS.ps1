@@ -22,7 +22,7 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 # Menu
 Write-Host "`n=== DNS Configuration Script ===" -ForegroundColor Cyan
-Write-Host "1. Set Cloudflare DNS (1.1.1.1) with STRICT DoH (no UDP fallback)"
+Write-Host "1. Set Cloudflare DNS (1.1.1.1) with STRICT DoH (enable UDP fallback)"
 Write-Host "2. Reset to DHCP automatic DNS"
 Write-Host ""
 
@@ -38,12 +38,12 @@ switch ($choice) {
         # Configure DoH with NO FALLBACK
         Set-DnsClientDohServerAddress -ServerAddress "1.1.1.1" `
             -DohTemplate "https://cloudflare-dns.com/dns-query{?dns}" `
-            -AllowFallbackToUdp $false `
+            -AllowFallbackToUdp $true `
             -AutoUpgrade $true
         
         Set-DnsClientDohServerAddress -ServerAddress "1.0.0.1" `
             -DohTemplate "https://cloudflare-dns.com/dns-query{?dns}" `
-            -AllowFallbackToUdp $false `
+            -AllowFallbackToUdp $true `
             -AutoUpgrade $true
         
         Write-Host "`nSuccess! Configured:" -ForegroundColor Green
