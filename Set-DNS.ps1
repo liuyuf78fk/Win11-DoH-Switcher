@@ -35,7 +35,7 @@ switch ($choice) {
         # Set Cloudflare DNS
         Set-DnsClientServerAddress -InterfaceAlias "WLAN" -ServerAddresses ("1.1.1.1", "1.0.0.1")
         
-        # Configure DoH with NO FALLBACK
+        # Configure DoH with enable FALLBACK
         Set-DnsClientDohServerAddress -ServerAddress "1.1.1.1" `
             -DohTemplate "https://cloudflare-dns.com/dns-query{?dns}" `
             -AllowFallbackToUdp $true `
@@ -49,7 +49,7 @@ switch ($choice) {
         Write-Host "`nSuccess! Configured:" -ForegroundColor Green
         Write-Host "- Primary DNS: 1.1.1.1 (DoH enforced)"
         Write-Host "- Secondary DNS: 1.0.0.1 (DoH enforced)"
-        Write-Host "- UDP fallback: DISABLED"
+        Write-Host "- UDP fallback: ENABLED"
     }
     "2" {
         # Reset to DHCP
