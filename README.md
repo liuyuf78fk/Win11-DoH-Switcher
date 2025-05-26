@@ -4,7 +4,7 @@ A PowerShell-based DNS configuration tool that enables flexible DNS-over-HTTPS (
 
 ## Features
 
-- **Multi-provider DoH support**: Choose from Cloudflare, Google, AliDNS, Quad9 and more
+- **Multi-provider DoH support**: Choose from Cloudflare, Google, Quad9 and more
 - **Customizable UDP fallback**: Enable or disable UDP fallback as needed
 - **Network interface awareness**: Works with any active network interface
 - **Configuration persistence**: Remembers your preferred settings between runs
