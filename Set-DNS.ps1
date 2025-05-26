@@ -329,14 +329,12 @@ while ($true) {
         "6" {
             # Exit Program
             Write-Host "Exiting..."
-			
-			Exit
-			
+            Exit
         }
         "7" {
             # Display all network configurations
             Write-Host "ipconfig /all"
-			ipconfig /all
+            ipconfig /all
         }
         default {
             Write-Host "Invalid selection. Please choose 1-7." -ForegroundColor Red
