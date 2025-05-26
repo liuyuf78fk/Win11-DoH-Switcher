@@ -62,6 +62,31 @@ A PowerShell-based DNS configuration tool that enables flexible DNS-over-HTTPS (
 ## Adding More Providers
 
 To add additional DoH providers:
-1. Edit `Set-DNS.ps1`
-2. Add new entries to the `$dohProviders` hashtable following the existing format
-3. The new providers will automatically appear in the selection menu
+
+1. **Register the DoH Server in Windows 11 (Required)**
+
+   ```powershell
+   Set-DnsClientDohServerAddress -ServerAddress "DNS_IP" -DohTemplate "DoH_URL" -AllowFallbackToUdp $true -AutoUpgrade $true
+   ```
+
+   *Example (for AdGuard DNS):*
+
+   ```powershell
+   Add-DnsClientDohServerAddress -ServerAddress "94.140.14.14" -DohTemplate "https://dns.adguard-dns.com/dns-query" -AllowFallbackToUdp $true -AutoUpgrade $true
+   Add-DnsClientDohServerAddress -ServerAddress "94.140.15.15" -DohTemplate "https://dns.adguard-dns.com/dns-query" -AllowFallbackToUdp $true -AutoUpgrade $true
+   ```
+2. **Edit `Set-DNS.ps1`**
+
+3. **Add new entries to the `$dohProviders` hashtable**
+   - Follow the existing format
+   - Example entry (AdGuard DNS):
+
+     ```powershell
+     "AdGuardDNS" = @{
+         PrimaryDNS    = "94.140.14.14"
+         SecondaryDNS = "94.140.15.15"
+         DoHTemplate  = "https://dns.adguard-dns.com/dns-query"
+     }
+     ```
+
+4. The new providers will automatically appear in the selection menu
