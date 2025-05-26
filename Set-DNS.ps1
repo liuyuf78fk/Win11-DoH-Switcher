@@ -13,6 +13,12 @@
     GNU General Public License for more details.
 #>
 
+# Require admin privileges
+if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host "This script must be run as Administrator!" -ForegroundColor Red
+    Start-Sleep 3
+    exit
+}
 
 # Configuration parameters - USER CAN MODIFY THESE
 $interfaceName = "WLAN" # Change this to your network interface name (e.g., "Ethernet", "Wi-Fi")
@@ -107,8 +113,8 @@ function Get-NetworkInterface {
 # Main menu display
 function Show-MainMenu {
 	
-    Write-Host "`n=== DoH Configuration Script ===" -ForegroundColor Red
-	Write-Host "Author: Liu Yu <f78fk@live.com>`n" -ForegroundColor Red
+    Write-Host "`n=== DoH Configuration Script ===" -ForegroundColor White
+	Write-Host "Author: Liu Yu <f78fk@live.com>`n" -ForegroundColor DarkGray
     Write-Host "Current Interface: $interfaceName`n" 
     Write-Host "1. Set DNS with DoH (Current: $($config.SelectedProvider), UDP Fallback: $($config.AllowFallbackToUdp))`n" 
     Write-Host "2. Reset to DHCP automatic DNS`n"
@@ -327,7 +333,7 @@ while ($true) {
 			
         }
         default {
-            Write-Host "Invalid selection. Please choose 1-5." -ForegroundColor Red
+            Write-Host "Invalid selection. Please choose 1-6." -ForegroundColor Red
             Start-Sleep 1
         }
     }
