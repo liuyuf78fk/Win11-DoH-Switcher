@@ -326,15 +326,15 @@ while ($true) {
                 Start-Sleep 1
             }
         }
-		"6" {
+        "6" {
             # Exit Program
             Write-Host "Exiting..."
 			
 			Exit
 			
         }
-		"7" {
-            # Exit Program
+        "7" {
+            # Display all network configurations
             Write-Host "ipconfig /all"
 			ipconfig /all
         }
