@@ -122,6 +122,7 @@ function Show-MainMenu {
     Write-Host "4. Configure UDP Fallback (Current: $($config.AllowFallbackToUdp))`n" 
     Write-Host "5. Change Network Interface (Current: $interfaceName)`n" 
 	Write-Host "6. Exit`n" 
+	Write-Host "7. Displays the full TCP/IP configuration for all adapters`n"
     Write-Host "" 
 }
 
@@ -189,7 +190,7 @@ try {
 # Main loop
 while ($true) {
     Show-MainMenu
-    $choice = Read-Host "Enter option (1-6)" 
+    $choice = Read-Host "Enter option (1-7)"
     
     switch ($choice) {
         "1" {
@@ -332,8 +333,13 @@ while ($true) {
 			Exit
 			
         }
+		"7" {
+            # Exit Program
+            Write-Host "ipconfig /all"
+			ipconfig /all
+        }
         default {
-            Write-Host "Invalid selection. Please choose 1-6." -ForegroundColor Red
+            Write-Host "Invalid selection. Please choose 1-7." -ForegroundColor Red
             Start-Sleep 1
         }
     }
