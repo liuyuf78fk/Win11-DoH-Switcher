@@ -75,6 +75,8 @@ To add additional DoH providers:
    Add-DnsClientDohServerAddress -ServerAddress "94.140.14.14" -DohTemplate "https://dns.adguard-dns.com/dns-query" -AllowFallbackToUdp $true -AutoUpgrade $true
    Add-DnsClientDohServerAddress -ServerAddress "94.140.15.15" -DohTemplate "https://dns.adguard-dns.com/dns-query" -AllowFallbackToUdp $true -AutoUpgrade $true
    ```
+   To discover more public DoH providers, visit [https://doh.qzz.io](https://doh.qzz.io)
+
 2. Edit `Set-DNS.ps1`
 
 3. Add new entries to the `$dohProviders` hashtable
