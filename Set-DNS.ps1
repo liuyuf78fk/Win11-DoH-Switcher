@@ -20,9 +20,6 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     exit
 }
 
-# Configuration parameters - USER CAN MODIFY THESE
-$interfaceName = "WLAN" # Change this to your network interface name (e.g., "Ethernet", "Wi-Fi")
-
 # Configuration file and directory paths
 $configDir = "$env:APPDATA\Win11-DoH-Switcher"
 $configFile = "$configDir\config.json"
@@ -36,6 +33,7 @@ if (-not (Test-Path $configDir)) {
 $defaultConfig = @{
     SelectedProvider     = "Cloudflare"
     AllowFallbackToUdp   = $true
+    SelectedInterface  = "WLAN"
 }
 
 # Available DoH providers (with proper template formats)
@@ -115,12 +113,12 @@ function Show-MainMenu {
 	
     Write-Host "`n=== DoH Configuration Script ===" -ForegroundColor White
 	Write-Host "Author: Liu Yu <f78fk@live.com>`n" -ForegroundColor DarkGray
-    Write-Host "Current Interface: $interfaceName`n" 
+    Write-Host "Current Interface: $($config.SelectedInterface)`n"
     Write-Host "1. Set DNS with DoH (Current: $($config.SelectedProvider), UDP Fallback: $($config.AllowFallbackToUdp))`n" 
     Write-Host "2. Reset to DHCP automatic DNS`n"
     Write-Host "3. Select DoH Provider (Current: $($config.SelectedProvider))`n" 
     Write-Host "4. Configure UDP Fallback (Current: $($config.AllowFallbackToUdp))`n" 
-    Write-Host "5. Change Network Interface (Current: $interfaceName)`n" 
+    Write-Host "5. Change Network Interface (Current: $($config.SelectedInterface))`n"
 	Write-Host "6. Exit`n" 
 	Write-Host "7. Displays the full TCP/IP configuration for all adapters`n"
     Write-Host "" 
@@ -180,11 +178,10 @@ $config = Load-Config
 
 # Get current interface (with fallback)
 try {
-    $interfaceName = Get-NetworkInterface -PreferredInterface $interfaceName
+    $config.SelectedInterface = Get-NetworkInterface -PreferredInterface $config.SelectedInterface
 } catch {
-    Write-Host "Error: $_" -ForegroundColor Red
-    Start-Sleep 3
-    exit
+    $config.SelectedInterface = "WLAN"
+    Start-Sleep 2
 }
 
 # Main loop
@@ -318,6 +315,8 @@ while ($true) {
                 
                 if ($interfaceChoice -ge 1 -and $interfaceChoice -le $interfaces.Count) {
                     $interfaceName = $interfaces[$interfaceChoice - 1].Name
+					$config.SelectedInterface = $interfaceName
+					Save-Config -Config $config
                     Write-Host "`nSelected interface: $interfaceName" -ForegroundColor Green
                     Start-Sleep 1
                 }
