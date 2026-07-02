@@ -193,10 +193,11 @@ while ($true) {
         "1" {
             # Apply selected DoH provider settings
             $provider = $dohProviders[$config.SelectedProvider]
+			$currentInterface = $config.SelectedInterface
             
             try {
                 # First set the DNS servers
-                Set-DnsClientServerAddress -InterfaceAlias $interfaceName -ServerAddresses ($provider.PrimaryDNS, $provider.SecondaryDNS)
+                Set-DnsClientServerAddress -InterfaceAlias $currentInterface -ServerAddresses ($provider.PrimaryDNS, $provider.SecondaryDNS)
                 
                 # Then configure DoH for each server
                 @($provider.PrimaryDNS, $provider.SecondaryDNS) | ForEach-Object {
@@ -222,7 +223,7 @@ while ($true) {
                 
                 # Verify configuration
                 Write-Host "`n=== Current DNS Settings ===" -ForegroundColor Yellow
-                Get-DnsClientServerAddress -InterfaceAlias $interfaceName | Format-Table -AutoSize
+                Get-DnsClientServerAddress -InterfaceAlias $currentInterface | Format-Table -AutoSize
                 
                 Write-Host "`n=== DoH Configuration ===" -ForegroundColor Yellow
                 Get-DnsClientDohServerAddress | Format-Table -AutoSize
@@ -236,7 +237,7 @@ while ($true) {
         "2" {
             # Reset to DHCP
             try {
-                Set-DnsClientServerAddress -InterfaceAlias $interfaceName -ResetServerAddresses
+                Set-DnsClientServerAddress -InterfaceAlias $config.SelectedInterface -ResetServerAddresses
                 Write-Host "`nSuccess! DNS reset to DHCP automatic configuration" -ForegroundColor Green
             } catch {
                 Write-Host "Error resetting DNS: $_" -ForegroundColor Red
